@@ -10,7 +10,10 @@
 sudo make install
 
 # Clean the current lib root
-make custom-clean INSTALLATION_DIR=$PWD/pigpio-installation
+make clean
+
+# Uninstall from the rootfs
+sudo make uninstall
 ```
 
 ## For installing in custom path...
