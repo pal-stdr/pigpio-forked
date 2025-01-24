@@ -1,7 +1,7 @@
 #
 # Set CROSS_PREFIX to prepend to all compiler tools at once for easier
 # cross-compilation.
-CROSS_PREFIX =
+CROSS_PREFIX ?=
 CC           = $(CROSS_PREFIX)gcc
 AR           = $(CROSS_PREFIX)ar
 RANLIB       = $(CROSS_PREFIX)ranlib
@@ -33,7 +33,7 @@ LL2      = -L. -lpigpiod_if -pthread -lrt
 
 LL3      = -L. -lpigpiod_if2 -pthread -lrt
 
-prefix = /usr/local
+prefix ?= /usr/local
 exec_prefix = $(prefix)
 bindir = $(exec_prefix)/bin
 includedir = $(prefix)/include
@@ -162,3 +162,31 @@ x_pigpio.o: x_pigpio.c pigpio.h
 x_pigpiod_if.o: x_pigpiod_if.c pigpiod_if.h pigpio.h
 x_pigpiod_if2.o: x_pigpiod_if2.c pigpiod_if2.h pigpio.h
 
+
+# Define output directories
+INSTALLATION_DIR ?= build
+INSTALLATION_BIN = $(INSTALLATION_DIR)/bin
+INSTALLATION_LIB = $(INSTALLATION_DIR)/lib
+INSTALLATION_INC = $(INSTALLATION_DIR)/include
+
+# Create necessary directories
+$(shell mkdir -p $(INSTALLATION_BIN) $(INSTALLATION_LIB) $(INSTALLATION_INC))
+
+# Move generated files to INSTALLATION directory
+install-to-custom-path:
+	@echo "Moving files to INSTALLATION directory..."
+	# Move library files
+	mv -f *.so $(INSTALLATION_LIB)/
+	mv -f *.so.$(SOVERSION) $(INSTALLATION_LIB)/
+	# Move binary files
+	mv -f pig2vcd pigpiod pigs x_pigpio x_pigpiod_if x_pigpiod_if2 $(INSTALLATION_BIN)/
+	# Move header files
+	cp -f pigpio.h pigpiod_if.h pigpiod_if2.h $(INSTALLATION_INC)/
+
+# A new target that builds and moves files
+custom-install: all install-to-custom-path
+	@echo "Build complete. Files moved to $(INSTALLATION_DIR)"
+
+
+custom-clean: clean
+	rm -rf $(INSTALLATION_DIR)

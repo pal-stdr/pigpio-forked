@@ -21,3 +21,8 @@ DOC/tmp
 DOC/MAN/*
 !DOC/MAN/README*
 DOC/HTML/*.html
+
+
+# Later added
+build/
+pigpio-installation/
