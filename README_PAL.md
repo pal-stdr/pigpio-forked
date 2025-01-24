@@ -19,6 +19,9 @@ sudo make uninstall
 ## For installing in custom path...
 
 ```sh
+# Format of custom path
+make custom-install INSTALLATION_DIR=/abs/dir/to/pigpio-installation
+
 
 # Installing in a custom path
 make custom-install INSTALLATION_DIR=$PWD/pigpio-installation
@@ -30,6 +33,9 @@ make custom-clean INSTALLATION_DIR=$PWD/pigpio-installation
 ## If you are using arch specific compiler like `aarch64-linux-gnu-gcc` to build this lib then use `CROSS_PREFIX=aarch64-linux-gnu-`
 
 ```sh
+# Format of custom path
+make custom-install INSTALLATION_DIR=/abs/dir/to/pigpio-installation CROSS_PREFIX=aarch64-linux-gnu-
+
 # Installing in a custom path
 make custom-install INSTALLATION_DIR=$PWD/pigpio-installation CROSS_PREFIX=aarch64-linux-gnu-
 
